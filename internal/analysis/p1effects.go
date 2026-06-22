@@ -250,7 +250,7 @@ func detectP1CallEffects(
 
 	// Writer output and HTTP response writes via selector expressions.
 	if sel, ok := node.Fun.(*ast.SelectorExpr); ok {
-		if sel.Sel.Name == "Write" && isWriterType(info, sel.X) {
+		if sel.Sel.Name == "Write" && isWriterType(info, sel.X) && !isHTTPResponseWriter(info, sel.X) {
 			name := exprName(sel.X)
 			key := "writer:" + name
 			if !seen[key] {
